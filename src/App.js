@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import { useEffect, useState } from 'react';
+
+import Modal from './Modal';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [ isOpenModal, setOpenModal ] = useState();
+
+	useEffect(() => {
+		if (isOpenModal) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = '';
+		}
+
+		document.addEventListener('keydown', (e) => {
+			if (isOpenModal && e.code === 'Escape') setOpenModal(false);
+		});
+	});
+	
+	return (
+		<div className="app">
+			<button onClick={() => setOpenModal(true)}>
+				Open modal
+			</button>
+			{ isOpenModal ? <Modal modalHandler={setOpenModal} /> : null }
+		</div>
+	);
 }
 
 export default App;
